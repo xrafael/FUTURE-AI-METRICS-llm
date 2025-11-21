@@ -45,33 +45,41 @@ llm = ChatOllama(model="llama3.1", temperature=0)
 
 # ------------------------- LOAD DATA -----------------------------
 
+metrics_json_path = str(Path(__file__).parent / "config/future_ai_metrics.json")
+
 def load_json(path: str) -> dict:
     with open(path, "r") as f:
         return json.load(f)
 
-def load_pdf_text(pdf_path: str) -> List[Dict]:
+def load_pdf_text(pdf_path: str) -> list[dict]:
     """
     Loads PDF and returns list of:
-    { "page": page_num, "text": page_content }
+    { "page": page_num, "text": page_content, "is_bibliography": bool }
     """
     loader = PyPDFLoader(pdf_path)
     pages = loader.load()
     out = []
     for i, page in enumerate(pages):
-        out.append({"page": i+1, "text": page.page_content})
+        text = page.page_content
+        is_bib = False
+        # Simple detection of bibliography pages
+        if re.search(r'\b(references|bibliography|citations)\b', text[:200], re.IGNORECASE):
+            is_bib = True
+        out.append({"page": i+1, "text": text, "is_bibliography": is_bib})
     return out
-
 
 
 # -------------------- PDF SEARCH ENGINE --------------------------
 
-def search_pdf(query: str, pages: List[Dict], top_k: int = 5):
+def search_pdf(query: str, pages: list[dict], top_k: int = 5):
     """
     Simple keyword-based search over the PDF pages.
-    (You can replace with a vector index if needed.)
+    Skips pages marked as bibliography.
     """
     scored = []
     for p in pages:
+        if p.get("is_bibliography"):
+            continue  # skip references
         text = p["text"]
         score = text.lower().count(query.lower())
         if score > 0:
@@ -98,8 +106,11 @@ Relevant excerpts from the paper:
 Task: Determine if the paper addresses this metric.
 Be strict and classify as one of: "yes", "no", "partial".
 
+Additionally, provide a confidence score between 0 and 1 representing how confident you are in this classification.
+
 Return ONLY valid JSON with fields:
 - status
+- confidence
 - interpretation
 - evidence_used
 """,
@@ -117,10 +128,16 @@ def evaluate_metric(metric_name: str, metric_description: str, evidence: str) ->
     # Extract JSON from response
     try:
         parsed = json.loads(response.content)
+
+        # Ensure confidence is valid
+        if "confidence" not in parsed or not isinstance(parsed["confidence"], (float, int)):
+            parsed["confidence"] = None
+                    
     except json.JSONDecodeError:
         parsed = {
             "status": "error",
-            "interpretation": "LLM returned non-JSON. Full text: " + response,
+            "confidence": None,
+            "interpretation": "LLM returned non-JSON. Full text: " + response.content,
             "evidence_used": evidence
         }
     return parsed
@@ -128,7 +145,7 @@ def evaluate_metric(metric_name: str, metric_description: str, evidence: str) ->
 
 # ----------------------- MAIN ANALYSIS ----------------------------
 
-def run_evaluation(metrics_json_path, paper_pdf_path, idx=0):
+def run_evaluation(paper_pdf_path, idx=0):
 
     future_ai = load_json(metrics_json_path)
     pdf_pages = load_pdf_text(paper_pdf_path)
@@ -167,16 +184,14 @@ def run_evaluation(metrics_json_path, paper_pdf_path, idx=0):
 
     return results
 
-
 # ----------------------- RUN & SAVE OUTPUT ----------------------------
 
 if __name__ == "__main__":
-    metrics_json_path = "future_ai_metrics.json"
+    
     paper_pdf_path = "./papers/s41597-025-04707-4.pdf"
+    report = run_evaluation(paper_pdf_path, 0)
 
-    report = run_evaluation(metrics_json_path, paper_pdf_path, 0)
-
-    with open("results/universality_report.json", "w") as f:
+    with open("results/universality_report_01.json", "w") as f:
         json.dump(report, f, indent=4)
 
     print("Done. Report saved to universality_report.json")
