@@ -1,0 +1,76 @@
+{
+    "future_ai_metrics": [
+        {
+            "name": "universality",
+            "description": "Universality in medical imaging artificial intelligence (AI) systems is essential for their effective deployment and integration into clinical workflows. Operational applicability metrics provide insights into the practical requirements for executing the AI tool, including computational resources and scanner/software compatibility. Considerations extend to clinical sites and regulatory compliance across different countries, ensuring adaptability to diverse healthcare environments. Interoperability standards, such as standardized model formats, image formats, communications, and clinical terms, facilitate seamless integration and data exchange between AI systems and existing healthcare infrastructure. Clinical validation metrics assess the robustness and generalizability of the AI tool across diverse patient demographics, local populations, and multiple clinical sites. By addressing these usability factors, medical imaging AI systems can be effectively deployed, ensuring accessibility, compatibility, and reliability in real-world clinical settings.",                            
+            "evaluation_criteria": [
+                {
+                    "name": "operational applicability",
+                    "description": "The practical requirements for executing the AI tool, including computational resources and scanner/software compatibility.",
+                    "metrics": [
+                        {
+                            "name": "computational resources",
+                            "description": "The computational resources required to execute the AI tool."
+                        },
+                        {
+                            "name": "scanner/software compatibility",
+                            "description": "The compatibility of the AI tool with the scanner and software."
+                        },
+                        {
+                            "name": "Operational medical sites",
+                            "description": "This metric reports whether the type of clinical sites the tool works with is specified (e.g., hospital, primary healthcare)."
+                        },
+                        {
+                            "name": "Operational countries",
+                            "description": "This metric defines if there are specified countries for which the tool is designed (in terms of accomplishment with the main regulation aspects and legal implications)."
+                        }
+                    ]
+                },
+                {
+                    "name": "interoperability standards",
+                    "description": "The interoperability of the AI tool with existing healthcare infrastructure, including standardized model formats, image formats, communications, and clinical terms.",
+                    "metrics": [
+                        {
+                            "name": "Standardized model format",
+                            "description": "This metric informs if a standard framework (e.g., Onnx, Protobuf) has been adopted for training and testing the predictive model."
+                        },
+                        {
+                            "name": "Standardized image format",
+                            "description": "It reports if clinical data standards for image as well as metadata (e.g. DICOM, NIfTI) have been used for data acquisition and annotation."
+                        },
+                        {
+                            "name": "Standardized communications",
+                            "description": "The metric reports if communication standard protocols have been used for interoperating the AI tool with healthcare centers (e.g. HL-7, DICOM, REST)."
+                        },
+                        {
+                            "name": "Standardized clinical terms",
+                            "description": "This metric specifies if one of the common terminology health standards and mappings is used to annotate the input/output data of the AI tool. ."
+                        }
+                    ]
+                },
+                {
+                    "name": "clinical validation",
+                    "description": "The robustness and generalizability of the AI tool across diverse patient demographics, local populations, populations, and multiple clinical sites.",
+                    "metrics": [
+                        {
+                            "name": "Tested with diverse patient demographics",
+                            "description": "This metric evaluates whether the AI tool has been clinically validated using data from a diverse range of patient demographics, including variations in age, sex, gender, ethnicity, socioeconomic status, and medical history."
+                        },
+                        {
+                            "name": "Tested with local population",
+                            "description": "This metric indicates if the model has been validated with a cohort collected from the local population but independent from the one used for training and testing. Examples of standards are ICD-10, SNOMED-CT and/or MEdCIN among others."
+                        },
+                        {
+                            "name": "Tested with external data",
+                            "description": "This metric indicates if the model has been validated with a cohort independent from the one used for training and testing and collected from another different site."
+                        },                        
+                        {
+                            "name": "Tested with data from multiple clinical sites",
+                            "description": "This metric indicates if the model has been validated with a cohort independent from the one used for training and testing and collected from more than one different clinical site."
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
