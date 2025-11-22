@@ -3,4 +3,10 @@ langchain-openai
 langchain-ollama
 langchain-community
 pypdf
+requests
+sentence-transformers
+faiss-cpu
+reportlab
+numpy
+langgraph
 

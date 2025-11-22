@@ -150,15 +150,15 @@ def run_evaluation(paper_pdf_path, idx=0):
     future_ai = load_json(metrics_json_path)
     pdf_pages = load_pdf_text(paper_pdf_path)
 
-    idx_metric = future_ai["future_ai_metrics"][idx]
+    criterions = future_ai["future_ai_metrics"][idx]
 
     results = {
-        "name": idx_metric["name"],
-        "description": idx_metric["description"],
+        "name": criterions["name"],
+        "description": criterions["description"],
         "evaluation": {}
     }
 
-    for criterion in idx_metric["evaluation_criteria"]:
+    for criterion in criterions["evaluation_criteria"]:
         c_name = criterion["name"]
         results["evaluation"][c_name] = {}
         for metric in criterion["metrics"]:
