@@ -1,7 +1,6 @@
 # Directories to ignore
 papers/
 results/
-config/
 
 # macOS
 .DS_Store

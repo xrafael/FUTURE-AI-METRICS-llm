@@ -1,0 +1,102 @@
+{
+    "future_ai_metrics": [
+        {
+            "name": "universality",
+            "description": "",                            
+            "evaluation_criteria": [
+                {
+                    "name": "operational applicability",
+                    "description": "",
+                    "metrics": [
+                        {
+                            "name": "computational resources",
+                            "description": " Description of minimum requirements of the digital infrastructure for executing the predictive model or AI tool (i.e. CPU/GPU, RAM, Disk space, operating system)."
+                        },
+                        {
+                            "name": "scanner/software compatibility",
+                            "description": " Description of compatibility across different medical image scanner manufacturers, acquisition software versions and reconstruction image algorithms for the model or AI tool."
+                        },
+                        {
+                            "name": "clinical site applicability",
+                            "description": " Description of type of clinical sites where the predictive model or AI tool can operate (e.g., tertiary hospitals, primary care, imaging centers, rural clinics)."
+                        },
+                        {
+                            "name": "geographical deployment readiness",
+                            "description": " Description of geographical deployment readiness across different countries and regions, including adaptation to regional clinical workflows or infrastructure constraints for the model or AI tool."
+                        }
+                    ]
+                },
+                {
+                    "name": "deployment universality",
+                    "description": "",
+                    "metrics": [
+                      {
+                        "name": "deployment modes supported",
+                        "description": " Specification whether the model or AI tool can run on cloud, on-premises servers, edge devices, hybrid architectures, or mobile platforms."
+                      },
+                      {
+                        "name": "containerization and virtualization",
+                        "description": " Report of the use of technologies such as Docker, Singularity, or Kubernetes for portable deployment."
+                      },
+                      {
+                        "name": "scalability and performance stability",
+                        "description": " Indication whether the model or AI tool maintains functional performance under varying computational loads and multi-user settings."
+                      }
+                    ]
+                },          
+                {
+                    "name": "interoperability standards",
+                    "description": "",
+                    "metrics": [
+                        {
+                            "name": "Standardized model format",
+                            "description": " Use of a standard framework (e.g., Onnx, Protobuf) for training and testing the model or AI tool."
+                        },
+                        {
+                            "name": "Standardized data and image formats",
+                            "description": " Use of clinical data standards for image as well as metadata and annotation (e.g. DICOM, NIfTI) for the model or AI tool."
+                        },
+                        {
+                            "name": "Standardized communication protocols",
+                            "description": " Use of communication standard protocols for interoperating with healthcare centers (e.g. HL-7, DICOMweb, FHIR, REST) for the model or AI tool."
+                        },
+                        {
+                            "name": "Standardized clinical terminology",
+                            "description": " Use of common terminology health standards (SNOMED-CT, ICD-10, RadLex, LOINC) for annotations, labels, or outputs for the model or AI tool."
+                        },
+                        {
+                            "name": "workflow interoperability",
+                            "description": " The model or AI tool is integrated with clinical systems such as PACS, RIS, HIS, EHR."
+                          }              
+                    ]
+                },
+                {
+                    "name": "clinical validation",
+                    "description": "",
+                    "metrics": [
+                        {
+                            "name": "Tested with diverse patient demographics",
+                            "description": "The model/AI tool has been clinically validated using data from a diverse range of patient demographics, including variations in age, sex, gender, ethnicity, socioeconomic status, and medical history."
+                        },
+                        {
+                            "name": "Tested with local population",
+                            "description": "Validated with a cohort collected from the local population but independent from the one used for training and testing. "
+                        },
+                        {
+                            "name": "Tested with external data",
+                            "description": "Validated with a cohort independent from the one used for training and testing and collected from another different site."
+                        },                        
+                        {
+                            "name": "Tested with data from multiple clinical sites",
+                            "description": "Validated with a cohort independent from the one used for training and testing and collected from more than one different clinical site."
+                        },
+                        {
+                            "name": "Tested with rare subgroup patients",
+                            "description": "Validated with uncommon or clinically relevant subgroups (rare diseases, minority demographics)."
+                        }                        
+                    ]
+                }
+            ]
+        }
+    ]
+}

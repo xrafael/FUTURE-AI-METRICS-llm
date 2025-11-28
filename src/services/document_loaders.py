@@ -63,64 +63,6 @@ class PDFLoader:
                 break
         
         return filtered_pages
-    
-    def extract_metadata(self, pdf_path: Path) -> Dict[str, Optional[str]]:
-        """
-        Extract title and authors from the first page of the PDF.
-        
-        Args:
-            pdf_path: Path to the PDF file
-            
-        Returns:
-            Dictionary with 'title' and 'authors' keys
-        """
-        loader = PyPDFLoader(str(pdf_path))
-        pages = loader.load_and_split()
-        
-        if not pages:
-            return {"title": None, "authors": None}
-        
-        # Get first page content
-        first_page = pages[0].page_content
-        
-        # Try to extract title (usually the first few lines, often in larger font or at the top)
-        lines = first_page.split('\n')
-        lines = [line.strip() for line in lines if line.strip()]
-        
-        title = None
-        authors = None
-        
-        # Title is typically one of the first substantial lines (not empty, not too short)
-        # Usually appears before authors
-        for i, line in enumerate(lines[:20]):  # Check first 20 lines
-            if len(line) > 10 and not line.lower().startswith(('abstract', 'keywords', 'introduction')):
-                # Skip common header/footer patterns
-                if not re.match(r'^\d+$', line) and not re.match(r'^[A-Z\s]{1,3}$', line):
-                    if title is None:
-                        title = line
-                        # Authors typically come after title, often on next few lines
-                        # Look for lines with common author patterns (commas, "and", etc.)
-                        for j in range(i + 1, min(i + 5, len(lines))):
-                            author_line = lines[j]
-                            # Check if line looks like authors (contains commas, "and", or multiple capitalized words)
-                            if (',' in author_line or ' and ' in author_line.lower() or 
-                                (len(author_line.split()) > 1 and author_line[0].isupper())):
-                                authors = author_line
-                                break
-                        break
-        
-        # Fallback: if we have a title but no authors, try to find authors in next few lines
-        if title and not authors:
-            title_idx = next((i for i, line in enumerate(lines) if line == title), None)
-            if title_idx is not None:
-                for j in range(title_idx + 1, min(title_idx + 5, len(lines))):
-                    author_line = lines[j]
-                    if (',' in author_line or ' and ' in author_line.lower() or 
-                        len(author_line.split()) > 2):
-                        authors = author_line
-                        break
-        
-        return {"title": title, "authors": authors}
 
 
 class ReadmeLoader:

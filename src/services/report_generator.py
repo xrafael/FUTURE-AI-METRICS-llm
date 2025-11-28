@@ -16,7 +16,7 @@ class ReportGenerator:
         """Initialize report generator."""
         self.styles = getSampleStyleSheet()
     
-    def generate_pdf(self, report: List[Dict[str, Any]], output_path: Path, paper_metadata: Dict[str, Any] = None) -> Path:
+    def generate_pdf(self, report: List[Dict[str, Any]], output_path: Path) -> Path:
         """
         Create a PDF assessment report from evaluation results.
         
@@ -44,17 +44,16 @@ class ReportGenerator:
         story.append(Spacer(1, 0.3*cm))
         
         # Paper title and authors
-        if paper_metadata:
-            title = paper_metadata.get("title")
-            authors = paper_metadata.get("authors")
-            
-            if title:
-                story.append(Paragraph(f"<b>Paper Title:</b> {title}", self.styles["Heading2"]))
-                story.append(Spacer(1, 0.2*cm))
-            
-            if authors:
-                story.append(Paragraph(f"<b>Authors:</b> {authors}", self.styles["BodyText"]))
-                story.append(Spacer(1, 0.3*cm))
+        title = "" #paper_metadata.get("title")
+        authors = "" #paper_metadata.get("authors")
+        
+        if title:
+            story.append(Paragraph(f"<b>Paper Title:</b> {title}", self.styles["Heading2"]))
+            story.append(Spacer(1, 0.2*cm))
+        
+        if authors:
+            story.append(Paragraph(f"<b>Authors:</b> {authors}", self.styles["BodyText"]))
+            story.append(Spacer(1, 0.3*cm))
         
         story.append(Spacer(1, 0.5*cm))
         

@@ -55,6 +55,6 @@ def main(pdf_path: Path, readme_url: str, output_pdf_path: Path = None):
 if __name__ == "__main__":
     pdf_path = Path("./papers/s41597-025-04707-4.pdf")
     readme_url = "https://github.com/LidiaGarrucho/MAMA-MIA/blob/main/README.md"  # Set to None if not using README
-    output_pdf_path = Path("./results/assessment_report_advanced_04.pdf")
+    output_pdf_path = Path("./results/assessment_report_advanced_06.pdf")
     main(pdf_path=pdf_path, readme_url=readme_url, output_pdf_path=output_pdf_path)
 

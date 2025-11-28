@@ -123,7 +123,11 @@ class AssessmentEngine:
         context = "\n".join(context_parts)
         
         prompt = f"""
-You are assessing whether a research article and its associated GitHub README address specific questions.
+You are an expert research-paper reviewer.
+Your task is to evaluate whether a research article and its associated GitHub README answer a specific question.  
+
+Use ONLY the provided context.
+If the context does not contain enough information, answer “no” or “partially”. Do NOT invent content.
 
 QUESTION:
 {question}
@@ -132,11 +136,14 @@ CONTEXT (segments with page/line identifiers from PDF, or line identifiers from 
 {context}
 
 TASK:
-1. Does the paper or README address the question? (yes/no)
-2. Provide page and line numbers of evidence (or README line numbers).
-3. Quote the relevant segments.
-4. Indicate if evidence comes from the paper (PDF) or the README.
-5. Suggest personalized recommendations for the paper to address the question.
+1. Decide whether the paper or the README fully, partially, or not at all address the question. 
+Allowed values: "yes", "no", "partially".
+2. Provide all pieces of evidence that support your judgment:
+Page number(s),
+Line number(s),
+Direct quote from the provided context (no paraphrasing),
+Specify "pdf" or "readme" as the source.
+3. Give personalized recommendations for how the authors could improve the paper/README to better address the question.
 
 
 Return ONLY valid JSON with the following structure:
@@ -144,11 +151,11 @@ Return ONLY valid JSON with the following structure:
     "addressed": "yes/no",
     "evidence": [
     {{
-        "page": <page number or "README">,
+        "page": <page number>,
         "line": <line number>,
-        "quote": "<text>",
+        "quote": "<exact quote from context>",
         "source": "pdf" or "readme",
-        "recommendation": "<recommendation>"
+        "recommendation": "<specific recommendation>"
     }}]
     }}
 """
@@ -253,12 +260,8 @@ Return ONLY valid JSON with the following structure:
                 "question": meta["question"],
                 "description": meta["description"],
                 "analysis": output["report"][-1]["analysis"],
-            }
-            
+            }            
             report[-1] = meta_out  # replace raw output with structured metadata
-        
-        # Extract paper metadata (title and authors)
-        paper_metadata = self.pdf_loader.extract_metadata(pdf_path)
         
         # Determine output PDF path
         if output_pdf_path is None:
@@ -271,7 +274,7 @@ Return ONLY valid JSON with the following structure:
             pdf_output_path = output_pdf_path
         
         # Generate PDF
-        pdf_path = self.report_generator.generate_pdf(report, pdf_output_path, paper_metadata=paper_metadata)
+        pdf_path = self.report_generator.generate_pdf(report, pdf_output_path)
         print("PDF saved at:", pdf_path)
         
         return report
